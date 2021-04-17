@@ -11,10 +11,10 @@ for n=1:88
 end
 
 %%% Extract treatment groups 
+% tgroups = double(~group(:,2)).';  %%% create joined treatment groups
+data = data([data.group] ~= 2); %%% exclude group  
 group = extractfield(data,'group');
 group = dummyvar(group);  
-% tgroups = double(~group(:,2)).';  %%% create joined treatment groups
-data = data([data.group] ~= 1); %%% exclude group  
 group1 = group(:,1).'; 
 group2 = group(:,2).'; 
 group3 = group (:,3).';
@@ -30,13 +30,15 @@ age=extractfield(data,'age');
 site=extractfield(data,'site');
 chldr1=extractfield(data,'chldr1');
 chldr2=extractfield(data,'chldr2'); 
+chldrdif= chldr2 - chldr1; 
 pain1 = extractfield(data,'Pain1');
 pain2 = extractfield(data,'Pain2'); 
 %%% Create mask to include subjects with non-missing data
-% mask=sum(flag([2,9],:))==2; %%% for Chalder (index1-chldr, index2-Volume)
 % Mask for Pain, first line for follow-up pain, second for Conn
-mask = ~isnan(pain2); 
+% mask = ~isnan(pain2); 
+mask = ~isnan(chldr2); 
 mask = flag(9,:) + mask==2;  
+
 
 %%% Extract connectivity data
 SC1=[];
@@ -54,15 +56,18 @@ end
 
 %%% Design and contrast construction (all scenarios) 
 %%% Group 2(control), change the other groups for different contrasts
-followUp1 = pain2(mask)'.*group2(mask)';
-followUp2 = pain2(mask)'.*group3(mask)'; 
-% followUp1 = chldr2(mask)'.*group2(mask)'; 
-% followUp2 = chldr2(mask)'.*group3(mask)';
+% followUp1 = pain2(mask)'.*group1(mask)';
+% followUp2 = pain2(mask)'.*group3(mask)'; 
+followUp1 = chldr2(mask)'.*group1(mask)'; 
+followUp2 = chldr2(mask)'.*group3(mask)';
 covName=['control' 'treatment' 'gender' 'age' 'site' 'TIV' 'baseline' 'control_followUp' 'treatment_followUp']; 
-% X=[group2(mask)',group3(mask)', gender(mask)', age(mask)', site(mask)',TIV(mask)',chldr1(mask)',followUp1,followUp2];
-X=[group2(mask)',group3(mask)', gender(mask)', age(mask)', site(mask)',TIV(mask)',pain1(mask)',followUp1,followUp2]; 
-C=[0 0 0 0 0 0 0 -1 1]; %%% to evaluate whether the follow-up fatigue
-% effect is different between the two groups  
+% X=[group1(mask)',group3(mask)', gender(mask)', age(mask)',
+% site(mask)',TIV(mask)',chldr1(mask)',followUp1,followUp2]; 
+X=[ gender(mask)', age(mask)', site(mask)',TIV(mask)',followUp1,followUp2];
+% X=[group1(mask)',group3(mask)', gender(mask)', age(mask)', site(mask)',TIV(mask)',pain1(mask)',followUp1,followUp2]; 
+% C=[0 0 0 0 0 0 0 -1 1]; %%% to evaluate whether the follow-up fatigue
+% effect is different between the two groups    
+C=[0 0 0 0 -1 1];
 
 
 %%% to create GLM using the covariate and Volume data
@@ -79,7 +84,7 @@ LME.Raw_Pvalue = p;
         
 %%% If loop to index connections below threshold 
 for i=1:length(LME.p_FDR)
-    if LME.p_FDR(i) <0.1
+    if LME.p_FDR(i) <0.05
         signif{i} = 'YES';
     else
         signif{i} = 'NO'; 

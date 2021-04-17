@@ -11,8 +11,8 @@ for n=1:88
 end
 
 %%% Extract group 
-data = data([data.group] ~= 2); %%% exclude control group
-% data = data([data.group] == 3); %%% include one group only 
+% data = data([data.group] ~= 2); %%% exclude control group
+data = data([data.group] == 3); %%% include one group only 
 %%% Load flag (for indexing missing data)
 flag=extractfield(data,'flag');
 flag=reshape(flag,10,[]);
@@ -30,8 +30,8 @@ paindif = pain2 - pain1;
 %%% Create mask to include subjects with non-missing data
 %%% 1(Chalder1), 2(Chalder2), 3(P_FC1)...
 % Mask for Pain/Chalder, first line for follow-up, second for Conn
-mask = ~isnan(pain2); 
-% mask = ~isnan(chldr2); 
+% mask = ~isnan(pain2); 
+mask = ~isnan(chldr2); 
 mask = flag(3,:) + mask==2;  
 
 %%% Extract connectivity data
@@ -51,7 +51,7 @@ end
 %%% Design and contrast construction (all scenarios)
 % covName=['subj' 'gender' 'age' 'site' 'outcome']; %%% unadjusted/difference
 covName=['subj' 'gender' 'age' 'site' 'baseline' 'outcome']; %%% adjusted
-% X=[ones(subj-1,1), gender(mask)', age(mask)', site(mask)',chldr2(mask)'];
+X=[ones(subj-1,1), gender(mask)', age(mask)', site(mask)',chldr2(mask)'];
 % X=[ones(subj-1,1), gender(mask)', age(mask)', site(mask)',chldrdif(mask)'];
 % X=[ones(subj-1,1), gender(mask)', age(mask)', site(mask)',chldr1(mask)',chldr2(mask)'];
 
@@ -59,7 +59,7 @@ covName=['subj' 'gender' 'age' 'site' 'baseline' 'outcome']; %%% adjusted
 % X=[ones(subj-1,1), age(mask)',chldr1(mask)',chldr2(mask)'];  
 % X=[ones(subj-1,1), site(mask)',chldr1(mask)',chldr2(mask)'];
 
-X=[ones(subj-1,1), gender(mask)', age(mask)', site(mask)',pain2(mask)'];
+% X=[ones(subj-1,1), gender(mask)', age(mask)', site(mask)',pain2(mask)'];
 % X=[ones(subj-1,1), gender(mask)', age(mask)', site(mask)',paindif(mask)'];
 % X=[ones(subj-1,1), gender(mask)', age(mask)',site(mask)',pain1(mask)',pain2(mask)'];  
 

@@ -11,8 +11,8 @@ for n=1:88
 end
 
 %%% Extract group 
-% data = data([data.group] ~= 2); %%% exclude group
-data = data([data.group] == 3); %%% include group1 only 
+data = data([data.group] ~= 2); %%% exclude group
+% data = data([data.group] == 3); %%% include group1 only 
 %%% Load flag (for indexing missing data)
 flag=extractfield(data,'flag');
 flag=reshape(flag,10,[]);

@@ -11,10 +11,10 @@ for n=1:88
 end
 
 %%% Extract treatment groups 
+% tgroups = double(~group(:,2)).'; %%% create joined treatment groups
+data = data([data.group] ~= 2); %%% exclude group   
 group = extractfield(data,'group');
 group = dummyvar(group);  
-% tgroups = double(~group(:,2)).'; %%% create joined treatment groups
-data = data([data.group] ~= 1); %%% exclude group  
 group1 = group(:,1).'; 
 group2 = group(:,2).'; 
 group3 = group (:,3).';
@@ -28,15 +28,16 @@ gender=extractfield(data,'gender');
 age=extractfield(data,'age');
 site=extractfield(data,'site');
 chldr1=extractfield(data,'chldr1');
-chldr2=extractfield(data,'chldr2'); 
+chldr2=extractfield(data,'chldr2');  
+chldrdif= chldr2 - chldr1; 
 pain1 = extractfield(data,'Pain1');
 pain2 = extractfield(data,'Pain2'); 
 %%% Create mask to include subjects with non-missing data
 %%% 1(Chalder1), 2(Chalder2), 3(P_FC1)...
-% mask=sum(flag([2,3],:))==2; %%% for Chalder (index1-chldr, index2-Conn)
 % Mask for Pain, first line for follow-up pain, second for Conn
-mask = ~isnan(pain2); 
-mask = flag(5,:) + mask==2;  
+% mask = ~isnan(pain2); 
+mask = ~isnan(chldr2); 
+mask = flag(3,:) + mask==2;  
 
 %%% Extract connectivity data
 SC1=[];
@@ -45,7 +46,7 @@ name=[];
 for i=1:length(data)
     if mask(i)==1
         name(subj)=(data(i).name);
-        SC1(:,:,subj)=data(i).rs_FC1;
+        SC1(:,:,subj)=data(i).P_FC1;
         subj=subj+1;
     end
 end
@@ -54,14 +55,19 @@ end
 
 %%% Design and contrast construction (all scenarios)
 %%% Group 2(control), change the other groups for different contrasts
-followUp1 = pain2(mask)'.*group2(mask)'; 
-followUp2 = pain2(mask)'.*group3(mask)'; 
-% followUp1 = chldr2(mask)'.*group2(mask)'; 
-% followUp2 = chldr2(mask)'.*group3(mask)';
+% followUp1 = pain2(mask)'.*group2(mask)'; 
+% followUp2 = pain2(mask)'.*group3(mask)'; 
+% followUp1 = chldr2(mask)'.*group1(mask)'; 
+% followUp2 = chldr2(mask)'.*group3(mask)'; 
+followUp1 = chldrdif(mask)'.*group1(mask)'; 
+followUp2 = chldrdif(mask)'.*group3(mask)';
+
 covName=['control' 'treatment' 'gender' 'age' 'site' 'baseline' 'control_followUp' 'treatment_followUp']; 
-% X=[group2(mask)',group3(mask)', gender(mask)', age(mask)', site(mask)',chldr1(mask)',followUp1,followUp2];
-X=[group2(mask)',group3(mask)', gender(mask)', age(mask)', site(mask)',pain1(mask)',followUp1,followUp2];
-C=[0 0 0 0 0 0 -1 1]; %%% to evaluate whether the follow-up fatigue
+% X=[ ones(subj-1,1), gender(mask)', age(mask)', site(mask)',chldr1(mask)',followUp1,followUp2]; 
+X=[gender(mask)', age(mask)', site(mask)',followUp1,followUp2];
+% X=[group1(mask)',group3(mask)', gender(mask)', age(mask)', site(mask)',pain1(mask)',followUp1,followUp2];
+C=[0 0 0 1 -1]; %%% to evaluate whether the follow-up fatigue 
+% C=[0 0 0 0 0 -1 1];
 % effect is different between the two groups 
 
 %%% For loop through each ROI using all subjects 
