@@ -1,0 +1,85 @@
+Lobe_order,Lobe,Hemisphere,Label,Region_order,Visulisation_order,LIFT_Hemisphere,LIFT_Label,LIFT_Order
+1,frontal,R,Frontal Pole,1,1,L,Thalamus Proper,1
+1,frontal,R,Pars Orbitalis,2,2,L,Caudate,2
+1,frontal,R,Lateral Orbito Frontal,3,3,L,Putamen,3
+1,frontal,R,Medial Orbito Frontal,4,4,L,Pallidum,4
+1,frontal,R,Pars Triangularis,5,5,L,Hippocampus,5
+1,frontal,R,Pars opercularis,6,6,L,Amygdala,6
+1,frontal,R,Rostral Middle Frontal Gyrus,7,7,L,Accumbens,7
+1,frontal,R,Caudal Middle Frontal Gyrus,8,8,L,Ventral Diencephalon,8
+1,frontal,R,Superior Frontal Gyrus,9,9,R,Thalamus Proper,9
+1,frontal,R,Paracentral,10,10,R,Caudate,10
+1,frontal,R,Precentral,11,11,R,Putamen,11
+2,insula,R,Insula,1,12,R,Pallidum,12
+3,limbic,R,Rostral Anterior Cingulate,1,13,R,Hippocampus,13
+3,limbic,R,Caudal Anterior Cingulate Gyrus,2,14,R,Amygdala,14
+3,limbic,R,Posterior Cingulate Cortex,3,15,R,Accumbens,15
+3,limbic,R,Isthmus Cingulate Cortex,4,16,R,Ventral Diencephalon,16
+4,temporal,R,Temporal Pole,1,17,L,Bank of the Superior Temporal Sulcus,17
+4,temporal,R,Superior Temporal Gyrus,2,18,L,Caudal Anterior Cingulate Gyrus,18
+4,temporal,R,Entorhinal,3,19,L,Caudal Middle Frontal Gyrus,19
+4,temporal,R,Middle Temporal Gyrus,4,20,L,Cuneus,20
+4,temporal,R,Bank of the Superior Temporal Sulcus,5,21,L,Entorhinal,21
+4,temporal,R,Fusiform,6,22,L,Fusiform,22
+4,temporal,R,Inferior Temporal Gyrus,7,23,L,Inferior Parietal Lobule,23
+4,temporal,R,Parahippocampal,8,24,L,Inferior Temporal Gyrus,24
+4,temporal,R,Transverse Temporal Gyrus,9,25,L,Isthmus Cingulate Cortex,25
+5,parietal,R,Postcentral,1,26,L,Lateral Occipital Gyrus,26
+5,parietal,R,Inferior Parietal Lobule,2,27,L,Lateral Orbito Frontal,27
+5,parietal,R,Precuneus,3,28,L,Lingual,28
+5,parietal,R,Superior Parietal Lobule,4,29,L,Medial Orbito Frontal,29
+5,parietal,R,Supramarginal Gyrus,5,30,L,Middle Temporal Gyrus,30
+6,occipital,R,Cuneus,1,31,L,Parahippocampal,31
+6,occipital,R,Pericalcarine,2,32,L,Raracentral,32
+6,occipital,R,Lateral Occipital Gyrus,3,33,L,Pars opercularis,33
+6,occipital,R,Lingual,4,34,L,Pars Orbitalis,34
+7,subcortial,R,Putamen,1,35,L,Pars Triangularis,35
+7,subcortial,R,Pallidum,2,36,L,Pericalcarine,36
+7,subcortial,R,Caudate,3,37,L,Postcentral,37
+7,subcortial,R,Amygdala,4,38,L,Posterior Cingulate Cortex,38
+7,subcortial,R,Thalamus Proper,5,39,L,Precentral,39
+7,subcortial,R,Hippocampus,6,40,L,Precuneus,40
+7,subcortial,R,Accumbens,7,41,L,Rostral Anterior Cingulate,41
+7,subcortial,R,Ventral Diencephalon,8,42,L,Rostral Middle Frontal Gyrus,42
+1,frontal,L,Frontal Pole,1,84,L,Superior Frontal Gyrus,43
+1,frontal,L,Pars Orbitalis,2,83,L,Superior Parietal Lobule,44
+1,frontal,L,Lateral Orbito Frontal,3,82,L,Superior Temporal Gyrus,45
+1,frontal,L,Medial Orbito Frontal,4,81,L,Supramarginal Gyrus,46
+1,frontal,L,Pars Triangularis,5,80,L,Frontal Pole,47
+1,frontal,L,Pars opercularis,6,79,L,Temporal Pole,48
+1,frontal,L,Rostral Middle Frontal Gyrus,7,78,L,Transverse Temporal Gyrus,49
+1,frontal,L,Caudal Middle Frontal Gyrus,8,77,L,Insula,50
+1,frontal,L,Superior Frontal Gyrus,9,76,R,Bank of the Superior Temporal Sulcus,51
+1,frontal,L,Paracentral,10,75,R,Caudal Anterior Cingulate Gyrus,52
+1,frontal,L,Precentral,11,74,R,Caudal Middle Frontal Gyrus,53
+2,insula,L,Insula,1,73,R,Cuneus,54
+3,limbic,L,Rostral Anterior Cingulate,1,72,R,Entorhinal,55
+3,limbic,L,Caudal Anterior Cingulate Gyrus,2,71,R,Fusiform,56
+3,limbic,L,Posterior Cingulate Cortex,3,70,R,Inferior Parietal Lobule,57
+3,limbic,L,Isthmus Cingulate Cortex,4,69,R,Inferior Temporal Gyrus,58
+4,occipital,L,Temporal Pole,1,68,R,Isthmus Cingulate Cortex,59
+4,occipital,L,Superior Temporal Gyrus,2,67,R,Lateral Occipital Gyrus,60
+4,occipital,L,Entorhinal,3,66,R,Lateral Orbito Frontal,61
+4,occipital,L,Middle Temporal Gyrus,4,65,R,Lingual,62
+4,parietal,L,Bank of the Superior Temporal Sulcus,5,64,R,Medial Orbito Frontal,63
+4,parietal,L,Fusiform,6,63,R,Middle Temporal Gyrus,64
+4,parietal,L,Inferior Temporal Gyrus,7,62,R,Parahippocampal,65
+4,parietal,L,Parahippocampal,8,61,R,Raracentral,66
+4,parietal,L,Transverse Temporal Gyrus,9,60,R,Pars opercularis,67
+5,temporal,L,Postcentral,1,59,R,Pars Orbitalis,68
+5,temporal,L,Inferior Parietal Lobule,2,58,R,Pars Triangularis,69
+5,temporal,L,Precuneus,3,57,R,Pericalcarine,70
+5,temporal,L,Superior Parietal Lobule,4,56,R,Postcentral,71
+5,temporal,L,Supramarginal Gyrus,5,55,R,Posterior Cingulate Cortex,72
+6,temporal,L,Cuneus,1,54,R,Precentral,73
+6,temporal,L,Pericalcarine,2,53,R,Precuneus,74
+6,temporal,L,Lateral Occipital Gyrus,3,52,R,Rostral Anterior Cingulate,75
+6,temporal,L,Lingual,4,51,R,Rostral Middle Frontal Gyrus,76
+7,subcortial,L,Putamen,1,50,R,Superior Frontal Gyrus,77
+7,subcortial,L,Pallidum,2,49,R,Superior Parietal Lobule,78
+7,subcortial,L,Caudate,3,48,R,Superior Temporal Gyrus,79
+7,subcortial,L,Amygdala,4,47,R,Supramarginal Gyrus,80
+7,subcortial,L,Thalamus Proper,5,46,R,Frontal Pole,81
+7,subcortial,L,Hippocampus,6,45,R,Temporal Pole,82
+7,subcortial,L,Accumbens,7,44,R,Transverse Temporal Gyrus,83
+7,subcortial,L,Ventral Diencephalon,8,43,R,Insula,84
