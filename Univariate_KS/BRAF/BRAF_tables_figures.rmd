@@ -1,0 +1,237 @@
+---
+title: "BRAF to Excel"
+output: html_document
+date: "2022-10-29"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,ft.keepnext = F) 
+
+```
+
+```{r} 
+# 0. Load libraries
+library(readxl)    
+library(dplyr) 
+library(flextable)  
+library(ftExtra) 
+library(officer)
+```
+
+
+```{r}
+# 1. Extract scores from summary spreadsheet
+
+## Create function to read all spreadsheets from the master copy
+read_excel_allsheets = function(filename, tibble = FALSE) {
+    sheets = readxl::excel_sheets(filename)
+    x = lapply(sheets, function(X) readxl::read_excel(filename, sheet = X,na="NA"))
+    if(!tibble) x = lapply(x, as.data.frame)
+    names(x) = sheets
+    x
+}   
+
+sheets = read_excel_allsheets("Results.xlsx")   
+names(sheets) = c("PASAT Functional Connectivity Baseline","Resting-state Functional Connectivity Baseline","Structural Connectivity Baseline","Grey Matter Volume Baseline","Grey Matter Area Baseline","Grey Matter Thickness Baseline")
+```
+
+```{r} 
+conn =  grep('Connectivity', names(sheets)); conn = sheets[conn,drop=F];conn = conn[sapply(conn, function(x) dim(x)[1]) > 0] 
+morph = grep('Grey Matter', names(sheets)); morph = sheets[morph,drop=F];morph = morph[sapply(morph, function(x) dim(x)[1]) > 0] 
+```
+
+
+```{r}
+eslabel = function(x){if(x<0.1){y='trivial'} else if (x>0.1 & x<0.25) {y='small'} else if(x>0.25 & x<0.37){y='medium'} else if(x>0.37){y='large'};y}  
+# mylabel = apply(test[,'effectsize',drop=F],1,eslabel) 
+# test = conn$`PASAT Functional Connectivity Baseline`
+
+```
+
+```{r}
+for (i in  1:length(conn)){
+  x = conn[[i]]  
+  if(length(x)>0){
+    x[,'rawpvalue'] = NULL; 
+    x[,'Coefficient'] = NULL; 
+    colnames(x) = c("Outcome","ROI Seed","ROI Target","T statistic","p value FDR","effect size")
+    x[['Outcome']] = gsub("1_[^_]+$", " BRAF Baseline",x[['Outcome']]) 
+    x$Outcome = as.factor(x$Outcome) 
+    x[,'T statistic'] = round(x[,'T statistic'],2)
+    }  
+    conn[[i]] = x
+  }
+```
+
+```{r}
+conn_circular = conn 
+for (i in  1:length(conn_circular)){
+  x = conn_circular[[i]]  
+  if(length(x)>0){
+    x[,'p value FDR'] = NULL; 
+    x[,'effect size'] = NULL;  
+    rois = paste0(x[,'ROI Seed'],x[,'ROI Target'])
+    empty = which(rois=="NANA")
+    rois[empty] = seq(1,length(empty),length=length(empty))
+    rois = which(duplicated(rois) | duplicated(rois, fromLast=T))
+    x = x[rois,]
+    }  
+    conn_circular[[i]] = x
+} 
+library(plyr) 
+conn_circular = ldply(conn_circular,.id = "Modality")  
+conn_circular[,'Modality'] = as.factor(conn_circular[,'Modality']) 
+conn_circular = split(conn_circular,conn_circular[,'Outcome']) 
+
+library(colorspace)  
+library (circlize) 
+library(ComplexHeatmap) 
+Regions_order = read.csv(paste0(getwd(),"/Regions_order.csv"))  
+Regions_order$Lobe = as.factor(Regions_order$Lobe) 
+col = rainbow_hcl(5)  
+compact_order = read.csv(paste0(getwd(),"/Regions_order_compact.csv")) 
+compact_order$Lobe = as.factor(compact_order$Lobe)  
+levels(compact_order$Lobe) = c(col[1],"#99A9E2",col[4],col[5],col[2],"black",col[3]) 
+
+for (i in 1:length(conn_circular)){
+  x = conn_circular[[i]] 
+  morder = as.data.frame(unique(c(x[,'ROI Seed'],x[,'ROI Target'])));names(morder) = "Region";morder = merge.data.frame(Regions_order,morder,by = "Region");morder = morder[order(morder$Order),]  
+  for (i in 1:nrow(morder)){x[['ROI Seed']] = gsub(morder[i,1],compact_order[morder[i,3],2],x[['ROI Seed']]);x[['ROI Target']] = gsub(morder[i,1],compact_order[morder[i,3],2],x[['ROI Target']])} 
+   morder = as.data.frame(unique(c(x[,'ROI Seed'],x[,'ROI Target'])));names(morder) = "Region";morder = merge.data.frame(compact_order,morder,by = "Region");morder = morder[order(morder$Order),]   
+   y = x[,3:5] 
+  
+  ## Create hcl colour scheme and apply same colour for each lobe; space between and within lobes
+  mgrid = as.character(morder$Lobe); names(mgrid) = morder$Region
+  ## Range blue-red for predictors of fatigue (blue-negative, red positive relationship) 
+  col_fun = colorRamp2(range(-6,6), c("blue", "red"), transparency = 0.7)   
+  lgd_links = Legend(at = c(-6,0,6),col_fun = col_fun,direction = "horizontal",title = "T statistic", title_position = "topcenter")
+  
+  ## Distinguish structural from functional connections; add legend 
+  struct = sum(x[,'Modality'] == "Structural Connectivity Baseline") 
+  func = nrow(x) - struct
+  mlty = c(rep(2,func),rep(1,struct)) ## full and dotted borders  
+  
+  mborder = c(rep("black",func),rep("white",struct))
+  
+  if(struct>0){arr.col = cbind(x[(func+1):nrow(x),3:4],rep("black",struct))} ## arrow location  
+  lgd_links = Legend(at = c(-6,0,6),col_fun = col_fun) ## legend options using ComplexHeatmap  
+  mdegree = 90
+  if(nrow(x)<3){thegap = 120;mdegree = 0};
+  
+  par(cex=1.3,font=2,mar = c(0, 0, 0, 0),oma = c(0,0,0,0), mgp = c(0, 0, 0),xpd = NA)
+  circos.par(canvas.xlim= c(0,0),canvas.ylim=c(-1.6,1.6),start.degree=mdegree)
+  chordDiagram(y,link.lwd = 1,big.gap = thegap,directional = 1,direction.type = "arrows",if(nrow(x)<3){big.gap = 10},
+               link.arr.length = 0.2,link.arr.col = arr.col,link.lty = mlty,
+               link.border=mborder,order = morder$Region,annotationTrack = c("grid"),
+               grid.col = mgrid,col = col_fun,link.sort = T, link.decreasing = F,annotationTrackHeight =0.03,
+               preAllocateTracks = list(track.height = 0.25))    
+  circos.track(track.index = 1, panel.fun = function(x, y) {
+    circos.text(CELL_META$xcenter, CELL_META$ylim[1], CELL_META$sector.index, 
+                facing = "clockwise", niceFacing = TRUE, adj = c(0, 0.5))
+  }, bg.border = NA) # here set bg.border to NA is important 
+  
+  # draw(lgd_links, x = unit(0.05, "npc") - unit(2, "mm"), y = unit(50, "mm"), just = c("left", "bottom"))
+  title(x$Outcome[1], cex = 1.5,adj = 0.5,line = -38,font=1)
+  circos.clear() 
+  dev.print(svg, paste(x$Outcome[1],".svg"),height=10, width=10)
+} 
+```
+
+
+```{r} 
+library(dplyr) 
+createtable = function(test,modality){
+  test[,'p value FDR'] = format.pval(test[,'p value FDR'],digits=1, 0.001)  
+  labels = apply(test[,'effect size',drop=F],1,eslabel)
+  test[,'effect size'] = round(test[,'effect size'],2)
+  test[,'effect size'] = paste0(test[,'effect size']," (",labels,")") 
+  
+  names(test)[names(test) == "effect size"] <- paste0("Effect size \n Eta squared")
+  test = flextable::as_grouped_data(test,groups = c("Outcome")) 
+  rois = paste0(test[,'ROI Seed'],test[,'ROI Target'])  
+  empty = which(rois=="NANA") 
+  rois[empty] = seq(1,length(empty),length=length(empty))
+  rois = which(duplicated(rois) | duplicated(rois, fromLast=T)) 
+  ft = test 
+  
+  ft = ft %>% 
+    as_flextable( ) %>% 
+    flextable::compose(
+      i = ~ !is.na(Outcome), # when not NA
+      j = c("ROI Seed","ROI Target"), 
+      value = as_paragraph(as_chunk(Outcome))) %>% 
+    hline(i = ~ !is.na(Outcome), border = officer::fp_border() ) %>% 
+    autofit() 
+  
+  ft = set_caption(ft,modality,style = "Table Caption")    
+  ft = fontsize(ft,size = 8)
+  ft = autofit(ft)   
+  # ft <- align(ft,align = "center") 
+  ft = highlight(ft,rois,color = "wheat", j = c("ROI Seed", "ROI Target")) 
+  ft = add_footer_lines(ft, "Colour highlights common connections between outcomes.\nEffect sizes are labelled as trivial<0.1, small>=0.1, medium>=0.25, large >0.37.");ft = color(ft, part = "footer", color = "#666666")   
+  ft = set_table_properties(ft, layout = "autofit")
+  ft
+}
+```
+
+```{r}
+tablesconn = lapply(seq_along(conn), function(y,n,i){modality = n[i];createtable(y[[i]],modality)},y=conn,n=names(conn)) 
+names(tablesconn) = names(conn)
+```
+
+```{r}
+createtable = function(test,modality){
+  test[,'rawpvalue'] = NULL 
+  test[,'Coefficient'] = NULL
+  colnames(test) = c("Outcome","ROI Seed","T statistic","p value FDR","effect size")
+  test$Outcome = gsub("1_[^_]+$", " BRAF Baseline", test$Outcome) # delete the № for the connection and substitute with clinical questionnaire and time 
+  test$Outcome = as.factor(test$Outcome) # format as factor
+  test[,'T statistic'] = round(test[,'T statistic'],2)
+  test[,'p value FDR'] = format.pval(test[,'p value FDR'],digits=1, 0.001)  
+  labels = apply(test[,'effect size',drop=F],1,eslabel)
+  test[,'effect size'] = round(test[,'effect size'],2)
+  test[,'effect size'] = paste0(test[,'effect size']," (",labels,")") 
+  
+  names(test)[names(test) == "effect size"] <- paste0("Effect size \n Eta squared")
+  test = flextable::as_grouped_data(test,groups = c("Outcome")) 
+  rois = paste0(test[,'ROI Seed'])  
+  empty = which(rois=="NA") 
+  rois[empty] = seq(1,length(empty),length=length(empty))
+  rois = which(duplicated(rois) | duplicated(rois, fromLast=T)) 
+  ft = test 
+  
+  ft = ft %>% 
+    as_flextable( ) %>% 
+    flextable::compose(
+      i = ~ !is.na(Outcome), # when not NA
+      j = c("ROI Seed"), 
+      value = as_paragraph(as_chunk(Outcome))) %>% 
+    hline(i = ~ !is.na(Outcome), border = officer::fp_border() ) %>% 
+    autofit() 
+  
+  ft = set_caption(ft,modality,style = "Table Caption")    
+  ft = fontsize(ft,size = 8)
+  ft = autofit(ft)   
+  # ft <- align(ft,align = "center") 
+  ft = highlight(ft,rois,color = "wheat", j = c("ROI Seed")) 
+  ft = add_footer_lines(ft, "Colour highlights common regions between outcomes.\nEffect sizes are labelled as trivial<0.1, small>=0.1, medium>=0.25, large >0.37.");ft = color(ft, part = "footer", color = "#666666")   
+  ft = set_table_properties(ft, layout = "autofit")
+  ft 
+}
+```
+
+```{r}
+tablesmorph = lapply(seq_along(morph), function(y,n,i){modality = n[i];createtable(y[[i]],modality)},y=morph,n=names(morph)) 
+names(tablesmorph) = names(morph)
+```
+
+```{r}
+combined = c(tablesconn,tablesmorph)  
+# lapply(seq_along(combined),function(y,n,i){save_as_docx(y[[i]],path=paste0(n[i],".docx"))},y=combined,n=names(combined)) 
+word_export <- read_docx() 
+for (i in 1:length(combined)){
+  body_add_flextable(word_export,combined[[i]]) 
+  body_add_par(word_export, value = "")
+}
+print(word_export,"Tables_BRAF.docx")
+```

@@ -1,0 +1,85 @@
+Lobe,Region,Order
+Frontal,R Frontal Pole,1
+Frontal,R Pars Orbitalis,2
+Frontal,R l OFC,3
+Frontal,R m OFC,4
+Frontal,R Pars Triangularis,5
+Frontal,R Pars opercularis,6
+Frontal,R RMFG,7
+Frontal,R CMFG,8
+Frontal,R s Frontal G,9
+Frontal,R Paracentral Lobule,10
+Frontal,R Precentral,11
+Insula,R Insula,12
+Limbic,R RACC,13
+Limbic,R CACC,14
+Limbic,R PCC,15
+Limbic,R Isthmus Cingulate C,16
+Temporal,R Temporal Pole,17
+Temporal,R s Temporal G,18
+Temporal,R Entorhinal,19
+Temporal,R Middle Temporal G,20
+Temporal,R Bank of the s Temporal S,21
+Temporal,R Fusiform,22
+Temporal,R i Temporal G,23
+Temporal,R Parahippocampal,24
+Temporal,R Transverse Temporal G,25
+Parietal,R Postcentral,26
+Parietal,R i Parietal Lobule,27
+Parietal,R Precuneus,28
+Parietal,R s Parietal Lobule,29
+Parietal,R Supramarginal G,30
+Occipital,R Cuneus,31
+Occipital,R Pericalcarine,32
+Occipital,R l Occipital C,33
+Occipital,R Lingual,34
+Subcortial,R Putamen,35
+Subcortial,R Pallidum,36
+Subcortial,R Caudate,37
+Subcortial,R Amygdala,38
+Subcortial,R Thalamus Proper,39
+Subcortial,R Hippocampus,40
+Subcortial,R Accumbens,41
+Subcortial,R Ventral Diencephalon,42
+Frontal,L Frontal Pole,43
+Frontal,L Pars Orbitalis,44
+Frontal,L l OFC,45
+Frontal,L m OFC,46
+Frontal,L Pars Triangularis,47
+Frontal,L Pars opercularis,48
+Frontal,L RMFG,49
+Frontal,L CMFG,50
+Frontal,L s Frontal G,51
+Frontal,L Paracentral Lobule,52
+Frontal,L Precentral,53
+Insula,L Insula,54
+Limbic,L RACC,55
+Limbic,L CACC,56
+Limbic,L PCC,57
+Limbic,L Isthmus Cingulate C,58
+Temporal,L Temporal Pole,59
+Temporal,L s Temporal G,60
+Temporal,L Entorhinal,61
+Temporal,L Middle Temporal G,62
+Temporal,L Bank of the s Temporal S,63
+Temporal,L Fusiform,64
+Temporal,L i Temporal G,65
+Temporal,L Parahippocampal,66
+Temporal,L Transverse Temporal G,67
+Parietal,L Postcentral,68
+Parietal,L i Parietal Lobule,69
+Parietal,L Precuneus,70
+Parietal,L s Parietal Lobule,71
+Parietal,L Supramarginal G,72
+Occipital,L Cuneus,73
+Occipital,L Pericalcarine,74
+Occipital,L l Occipital C,75
+Occipital,L Lingual,76
+Subcortial,L Putamen,77
+Subcortial,L Pallidum,78
+Subcortial,L Caudate,79
+Subcortial,L Amygdala,80
+Subcortial,L Thalamus Proper,81
+Subcortial,L Hippocampus,82
+Subcortial,L Accumbens,83
+Subcortial,L Ventral Diencephalon,84

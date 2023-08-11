@@ -1,0 +1,85 @@
+Lobe,Region,Order
+Frontal,RH-Frontal Pole,1
+Frontal,RH-Pars Orbitalis,2
+Frontal,RH-Lateral Orbito Frontal,3
+Frontal,RH-Medial Orbito Frontal,4
+Frontal,RH-Pars Triangularis,5
+Frontal,RH-Pars opercularis,6
+Frontal,RH-Rostral Middle Frontal Gyrus,7
+Frontal,RH-Caudal Middle Frontal Gyrus,8
+Frontal,RH-Superior Frontal Gyrus,9
+Frontal,RH-Paracentral,10
+Frontal,RH-Precentral,11
+Insula,RH-Insula,12
+Limbic,RH-Rostral Anterior Cingulate,13
+Limbic,RH-Caudal Anterior Cingulate Gyrus,14
+Limbic,RH-Posterior Cingulate Cortex,15
+Limbic,RH-Isthmus Cingulate Cortex,16
+Temporal,RH-Temporal Pole,17
+Temporal,RH-Superior Temporal Gyrus,18
+Temporal,RH-Entorhinal,19
+Temporal,RH-Middle Temporal Gyrus,20
+Temporal,RH-Bank of the Superior Temporal Sulcus,21
+Temporal,RH-Fusiform,22
+Temporal,RH-Inferior Temporal Gyrus,23
+Temporal,RH-Parahippocampal,24
+Temporal,RH-Transverse Temporal Gyrus,25
+Parietal,RH-Postcentral,26
+Parietal,RH-Inferior Parietal Lobule,27
+Parietal,RH-Precuneus,28
+Parietal,RH-Superior Parietal Lobule,29
+Parietal,RH-Supramarginal Gyrus,30
+Occipital,RH-Cuneus,31
+Occipital,RH-Pericalcarine,32
+Occipital,RH-Lateral Occipital Gyrus,33
+Occipital,RH-Lingual,34
+Subcortial,RH-Putamen,35
+Subcortial,RH-Pallidum,36
+Subcortial,RH-Caudate,37
+Subcortial,RH-Amygdala,38
+Subcortial,RH-Thalamus Proper,39
+Subcortial,RH-Hippocampus,40
+Subcortial,RH-Accumbens,41
+Subcortial,RH-Ventral Diencephalon,42
+Frontal,LH-Frontal Pole,43
+Frontal,LH-Pars Orbitalis,44
+Frontal,LH-Lateral Orbito Frontal,45
+Frontal,LH-Medial Orbito Frontal,46
+Frontal,LH-Pars Triangularis,47
+Frontal,LH-Pars opercularis,48
+Frontal,LH-Rostral Middle Frontal Gyrus,49
+Frontal,LH-Caudal Middle Frontal Gyrus,50
+Frontal,LH-Superior Frontal Gyrus,51
+Frontal,LH-Paracentral,52
+Frontal,LH-Precentral,53
+Insula,LH-Insula,54
+Limbic,LH-Rostral Anterior Cingulate,55
+Limbic,LH-Caudal Anterior Cingulate Gyrus,56
+Limbic,LH-Posterior Cingulate Cortex,57
+Limbic,LH-Isthmus Cingulate Cortex,58
+Temporal,LH-Temporal Pole,59
+Temporal,LH-Superior Temporal Gyrus,60
+Temporal,LH-Entorhinal,61
+Temporal,LH-Middle Temporal Gyrus,62
+Temporal,LH-Bank of the Superior Temporal Sulcus,63
+Temporal,LH-Fusiform,64
+Temporal,LH-Inferior Temporal Gyrus,65
+Temporal,LH-Parahippocampal,66
+Temporal,LH-Transverse Temporal Gyrus,67
+Parietal,LH-Postcentral,68
+Parietal,LH-Inferior Parietal Lobule,69
+Parietal,LH-Precuneus,70
+Parietal,LH-Superior Parietal Lobule,71
+Parietal,LH-Supramarginal Gyrus,72
+Occipital,LH-Cuneus,73
+Occipital,LH-Pericalcarine,74
+Occipital,LH-Lateral Occipital Gyrus,75
+Occipital,LH-Lingual,76
+Subcortial,LH-Putamen,77
+Subcortial,LH-Pallidum,78
+Subcortial,LH-Caudate,79
+Subcortial,LH-Amygdala,80
+Subcortial,LH-Thalamus Proper,81
+Subcortial,LH-Hippocampus,82
+Subcortial,LH-Accumbens,83
+Subcortial,LH-Ventral Diencephalon,84
