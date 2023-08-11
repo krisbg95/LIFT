@@ -1,0 +1,10 @@
+Associates.m: Matlab code to find correlates of a clinical variable, given neuroimaging and clinical data using general linear models (conn_glm). Outputs an excel sheet called Results.xlsx
+BRAF.csv: table of the raw clinical data of fatigue sub-scores from the BRAF MDQ questionnaire 
+BRAF_correlation.R: R code using the pairs.panel function to create a correlation matrix and scatterplots of the BRAF fatigue subdimensions 
+BRAF_tables_figures.Rmd: R code to create tables and figures from the Associates.m excel sheet output Results.xlsx 
+clean_duplicates.m: additional code that Associates.m requires to handle duplicates from the structural connectivity results
+LIFT_data_v2.mat: final version of all neuroimaing modalites from LIFT, including structural grey matter volumes, thickness, and surface area, two functional connectivity matrices (PASAT, resting-state) and one structural connectivity matrix 
+Regions_order.csv: the brain region order as set by LIFT_data_v2.mat that the BRAF_tables_figures.Rmd would initially use 
+Regions_order_compact.csv: the brain region order and naming that is better suited for the tables and figures produced by the  BRAF_tables_figures.Rmd 
+Results.xlsx: the output from Associates.m 
+Tables_BRAF_spaces_edited.docx: the output from BRAF_tables_figures.Rmd after some editting of empty spaces
