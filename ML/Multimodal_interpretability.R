@@ -376,10 +376,10 @@ change = lift_pred - your_data[-train_ind,"Chalder1_Total"]
 biggest_change <- order(change)[1]
 
 explainer <- lime::lime(train_lift,final_model)   
-set.seed(145)
-explanation_single <- lime::explain(test_lift[biggest_change,], explainer,n_features = 5,n_permutations = 100000)  
-explanation_single$feature = c("SC RH Bank of the Superior Temporal Sulcus - RH Rostral Middle Frontal Gyrus","Depression","rsFC LH Pallidum - LH Pars Orbitalis","rsFC RH Cuneus - RH Pars Triangularis","rsFC RH Caudal Anterior Cingulate Gyrus - RH Lateral Orbito Frontal Cortex") 
-explanation_single$feature_desc = c("0.011 < SC RH Bank of the Superior Temporal Sulcus - RH Rostral Middle Frontal Gyrus","9 < Depression","rsFC LH Pallidum - LH Pars Orbitalis <= 0.019","0.26 < rsFC RH Cuneus - RH Pars Triangularis","rsFC RH Caudal Anterior Cingulate Gyrus - RH Lateral Orbito Frontal Cortex <= 0.14") 
+set.seed(145) 
+explanation_single <- lime::explain(x = test_lift[biggest_change,],explainer = explainer,n_permutations = 10000,dist_fun = "manhattan",kernel_width = 4,n_features = 5)
+explanation_single$feature = c("CBA Group","SC RH Precuneus - RH Rostral Anterior Cingulate","rsFC LH Accumbens - RH Transverse Temporal Gyrus","SC LH Supramarginal Gyrus - RH Rostral Anterior Cingulate","rsFC RH Lateral Orbito Frontal - RH Superior Frontal Gyrus") 
+explanation_single$feature_desc = c("0.75 < CBA Group (1)","0.0024 < SC RH Precuneus - RH Rostral Anterior Cingulate (0.03)","0.02 < rsFC LH Accumbens - RH Transverse Temporal Gyrus (0.08) <= 0.09","0 < SC LH Supramarginal Gyrus - RH Rostral Anterior Cingulate (0.0003)","rsFC RH Lateral Orbito Frontal - RH Superior Frontal Gyrus (-0.013) <= 0.25") 
 plot = plot_features(explanation_single)  
 plot$data$prediction = round(plot$data$prediction,1) 
 plot$data$`Baseline` = rep(25,5) 
@@ -390,16 +390,16 @@ temp[["Actual follow up"]] = quo(`Actual follow-up`)
 plot[["facet"]][["params"]][["facets"]] = temp 
 
 plot(plot)
-# dev.print(svg,"Lime_single_case.svg",height = 4, width = 8) 
-# dev.off()
+dev.print(svg,"Lime_single_case.svg",height = 4, width = 8)
+dev.off()
 
 biggest_change <- order(change)[1:5]
 set.seed(145)
-explanation <- lime::explain(test_lift[biggest_change,], explainer,n_features = 2,n_permutations =10000)  
-explanation$feature = c("SC RH Bank of the Superior Temporal Sulcus - RH Rostral Middle Frontal Gyrus","Depression","SC RH Bank of the Superior Temporal Sulcus - RH Rostral Middle Frontal Gyrus","rsFC LH Frontal Pole - LH Insula","SC LH Medial Orbito Frontal - LH-Frontal Pole","Depression","SC LH Medial Orbito Frontal - LH-Frontal Pole","rsFC RH Cuneus - RH Pars Triangularis","rsFC LH Frontal Pole - LH Insula","Depression") 
-explanation$feature_desc = c("0.11 < SC RH Bank of the Superior Temporal Sulcus - RH Rostral Middle Frontal Gyrus","9 < Depression","0.11 < SC RH Bank of the Superior Temporal Sulcus - RH Rostral Middle Frontal Gyrus","rsFC LH Frontal Pole - LH Insula <= -0.035","0.044 < SC LH Medial Orbito Frontal - LH-Frontal Pole","9 < Depression","0.44 < SC LH Medial Orbito Frontal - LH-Frontal Pole","rsFC RH Cuneus - RH Pars Triangularis  <= -0.067","0.184 < rsFC LH Frontal Pole - LH Insula","9 < Depression") 
+explanation <- lime::explain(test_lift[biggest_change,], explainer,n_features = 2,n_permutations =10000,dist_fun = "manhattan",kernel_width = 4)  
+explanation$feature = c("CBA Group","SC LH Inferior Parietal Lobule - LH Isthmus Cingulate Cortex","Usual Care Group","rsFC RH Pars Orbitalis - RH Precuneus","CBA Group","Volume LH Temporal Pole","Thickness LH Postcentral","rsFC LH Hippocampus - RH Amygdala","rsFC LH Hippocampus - RH Hippocampus","SC RH Paracentral - RH Caudal Anterior Cingulate Gyrus") 
+explanation$feature_desc = c("0.75 < CBA Group","0.009 < SC LH Inferior Parietal Lobule - LH Isthmus Cingulate Cortex <= 0.02","0.75 < Usual Care Group","rsFC RH Pars Orbitalis - RH Precuneus <= -0.08","0.75 < CBA Group","Volume LH Temporal Pole <= 2229","Thickness LH Postcentral <= 2.01","rsFC LH Hippocampus - RH Amygdala <= 0.289","0.860 < rsFC LH Hippocampus - RH Hippocampus","0.002 < SC RH Paracentral - RH Caudal Anterior Cingulate Gyrus <= 0.01") 
 plot_explanations(explanation)  
-# dev.print(svg,"Lime_5_cases.svg",height = 4, width = 8) 
-# dev.off()
+dev.print(svg,"Lime_5_cases.svg",height = 4, width = 8)
+dev.off()
 
 
