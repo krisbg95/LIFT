@@ -1,0 +1,36 @@
+library(plgp)
+library(mvtnorm)
+n <- 8
+X <- matrix(seq(0, 2*pi, length=n), ncol=1)
+y <- sin(X)
+D <- distance(X)
+eps <- sqrt(.Machine$double.eps)
+Sigma <- exp(-D) + diag(eps, ncol(D))
+XX <- matrix(seq(-0.5, 2*pi + 0.5, length=50), ncol=1)
+DXX <- distance(XX)
+SXX <- exp(-DXX) + diag(eps, ncol(DXX))
+DX <- distance(XX, X)
+SX <- exp(-DX)
+Si <- solve(Sigma)
+mup <- SX %*% Si %*% y
+Sigmap <- SXX - SX %*% Si %*% t(SX)
+YY <- rmvnorm(100, mup, Sigmap)
+q1 <- mup + qnorm(0.05, 0, sqrt(diag(Sigmap)))
+q2 <- mup + qnorm(0.95, 0, sqrt(diag(Sigmap)))
+matplot(XX, t(YY), type="l", col="gray", lty=1, xlab="x", ylab="y",ylim = c(-2,2),xlim= c(0,6))
+points(X, y, pch=20, cex=2)
+lines(XX, sin(XX), col="blue")
+lines(XX, mup, lwd=2)
+lines(XX, q1, lwd=2, lty=2, col=2)
+lines(XX, q2, lwd=2, lty=2, col=2) 
+
+dev.print(svg, "Posterior.svg",height=5, width=7)
+
+mu <- rep(0, n)  # Zero-mean GP
+Sigma <- exp(-D) + diag(eps, 8) 
+Y <- rmvnorm(50, sigma=Sigma)
+matplot(X, t(Y), type="l", ylab="Y",col="gray",ylim = c(-2,2),xlim= c(0,6))
+points(X, y, pch=20, cex=2)  
+lines(X, mu, col="blue", lwd=2) 
+
+dev.print(svg, "Prior.svg",height=5, width=7)
