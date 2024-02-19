@@ -5,4 +5,5 @@ Results from running all scripts: Results_All_Models.RData
 Script to run comparisons between models: Model_comparisons.R 
 Script to run permutation test and interpretability methods (feature importance, ALE plots, LIME models) on final multimodality model: Multimodal_interpretability.R 
 Script to run validation on external data set: Validation.R 
-Data for external validation: MLdataP_6months_validation.RData
+Data for external validation: MLdataP_6months_validation.RData 
+Bias_variance.R and Gaussian_Process_figures.R: scripts to create figures for method section
